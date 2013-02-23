@@ -3,8 +3,8 @@ MMCU = atmega88
 F_CPU = 18432000UL
 
 CC = avr-gcc
-CFLAGS = -O2 -g -Wall
-SRC = $(shell ls *.c)
+CFLAGS = -O3 -g -Wall
+SRC = $(shell ls *.c) $(shell ls ../board/*.c)
 INC = $(shell find .  -name '*.[h]')
 
 ifeq ($(MMCU), atmega8)
@@ -52,7 +52,6 @@ fuse:
 	avrdude -c usbtiny -p $(TARGET_P) -U lfuse:w:$(LFUSE):m -U hfuse:w:$(HFUSE):m
 
 asm: $(SRC)
-	#$(CC) $(CDEFINES) -mmcu=$(MMCU) $(CFLAGS) -S -o $(TARGET).s $<
 	$(CC) $(CDEFINES) -mmcu=$(MMCU) $(CFLAGS) -S $^
 
 clean:
