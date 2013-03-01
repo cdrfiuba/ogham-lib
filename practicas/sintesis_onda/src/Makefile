@@ -32,13 +32,13 @@ CDEFINES = -DMMCU=$(MMCU_N) -DF_CPU=$(F_CPU)
 # Reglas para compilar y generar el binario para subir al target
 all: hex
 
-bin: $(SRC) $(INC)
-	$(CC) $(CDEFINES) -mmcu=$(MMCU) $(CFLAGS) -o $(TARGET).bin $(SRC)
-	avr-objdump -h -S $(TARGET).bin > $(TARGET).lst
-	avr-size -d $(TARGET).bin
+elf: $(SRC) $(INC)
+	$(CC) $(CDEFINES) -mmcu=$(MMCU) $(CFLAGS) -o $(TARGET).elf $(SRC)
+	avr-objdump -h -S $(TARGET).elf > $(TARGET).lst
+	avr-size -d $(TARGET).elf
 
-hex: bin
-	avr-objcopy -j .text -j .data -O ihex $(TARGET).bin $(TARGET).hex
+hex: elf
+	avr-objcopy -j .text -j .data -O ihex $(TARGET).elf $(TARGET).hex
 
 
 # Reglas para programar el target
@@ -51,8 +51,5 @@ program_dw: bin
 fuse:
 	avrdude -c usbtiny -p $(TARGET_P) -U lfuse:w:$(LFUSE):m -U hfuse:w:$(HFUSE):m
 
-asm: $(SRC) $(INC)
-	$(CC) $(CDEFINES) -mmcu=$(MMCU) $(CFLAGS) -S -o $(TARGET).s $<
-
 clean:
-	rm -rf $(TARGET).hex $(TARGET).bin $(TARGET).s
+	rm -rf $(TARGET).hex $(TARGET).elf $(TARGET).lst
