@@ -33,13 +33,29 @@ typedef struct
     uint8_t bit;
 } IOPIN_t;
 
+typedef struct
+{
+    uint8_t prescaler;
+    uint8_t mode;
+    void (*isr)(void);   // interrupt service routine
+} PWM2_t;
+
+PWM2_t PWM2;
+
 
 // Funciones públicas
 
+// Pines
 void initPin(const IOPIN_t *pin, uint8_t dir, uint8_t pullup);
 static void setPin(const IOPIN_t *pin) __attribute__((unused));
 static void clearPin(const IOPIN_t *pin) __attribute__((unused));
 static void togglePin(const IOPIN_t *pin) __attribute__((unused));
+
+// PWM
+void initPWM2(uint8_t mode, uint8_t prescaler, void (*isr)(void), uint8_t output);
+void startPWM2(void);
+void stopPWM2(void);
+void setPWM2(uint8_t x);
 
 
 /**
@@ -77,7 +93,11 @@ static void clearPin(const IOPIN_t *pin)
  **/
 static void togglePin(const IOPIN_t *pin)
 {
-    setBit(*(pin->pin), pin->bit);
+    #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)
+        setBit(*(pin->pin), pin->bit);
+    #elif defined (__AVR_ATmega8__)
+        *(pin->pin) ^= (1 << pin->bit);
+    #endif
 }
 
 
