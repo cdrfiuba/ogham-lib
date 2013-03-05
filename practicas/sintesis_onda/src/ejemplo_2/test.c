@@ -16,7 +16,7 @@ int main (void)
     // inicializamos la placa
     initBoard();
     
-    // inicializamos el PWM en modo 3(fast PWM), con fclk/8 y con salida en el pin OC2
+    // inicializamos el PWM en modo 3(fast PWM), prescaler 2 (fclk/8) y salida en el pin OC2
     initPWM2(3, 2, NULL, 1);
     startPWM2();
     
