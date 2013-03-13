@@ -1,9 +1,14 @@
 #include <avr/io.h>
+#include <stddef.h>
 #include "board.h"
 #include "utils.h"
 
 
-void initLeds(void);
+static uint8_t buttonDebounce;
+static void (*buttonIsr)(void);
+
+static void buttonPressed(void);
+
 
 /**
  * Inicializa todo lo vinculado a la placa. Debe ser llamada siempre al comienzo
@@ -12,6 +17,7 @@ void initLeds(void);
 void initBoard(void)
 {
     initLeds();
+    initButton(NULL, 0);
 }
 
 /**
@@ -23,8 +29,40 @@ void initLeds(void)
     
     for (i=0; i<NUM_LEDS; i++)
     {
-        initPin(&LED[i], 1, 0);  // pin como salida
+        configPin(&LED[i], 1, 0);  // pin como salida
         setPin(&LED[i]);  // iniciamos el LED apagado
     }
 }
 
+/**
+ * Inicializa el botón.
+ * isr: puntero a la función que será llamada cuando se presione el botón.
+ * debounce: cantidad de milisegundos para filtrar los rebotes
+ **/
+void initButton(void (*isr)(void), uint8_t debounce)
+{
+    buttonIsr = isr;
+    buttonDebounce = debounce;
+    
+    configPin(&BUTTON, 0, 1);  // pin como entrada con pullup interno
+    configExtInt(0, 2, buttonPressed);  // INT0, flanco descendente
+}
+
+// callback
+static void buttonPressed(void)
+{
+    // Filtramos los rebotes
+    _delay_ms(buttonDebounce);  
+    if (readButton() == 0)
+    {
+        buttonIsr();  // callback
+    }
+}
+
+/**
+ * Retorna el estado actual del botón.
+ **/
+uint8_t readButton(void)
+{
+    return readPin(&BUTTON);
+}

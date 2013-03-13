@@ -46,16 +46,21 @@ PWM2_t PWM2;
 // Funciones públicas
 
 // Pines
-void initPin(const IOPIN_t *pin, uint8_t dir, uint8_t pullup);
+void configPin(const IOPIN_t *pin, uint8_t dir, uint8_t pullup);
 static void setPin(const IOPIN_t *pin) __attribute__((unused));
 static void clearPin(const IOPIN_t *pin) __attribute__((unused));
 static void togglePin(const IOPIN_t *pin) __attribute__((unused));
+static uint8_t readPort(const IOPIN_t *pin) __attribute__((unused));
+static uint8_t readPin(const IOPIN_t *pin) __attribute__((unused));
 
 // PWM
-void initPWM2(uint8_t mode, uint8_t prescaler, void (*isr)(void), uint8_t output);
+void configPWM2(uint8_t mode, uint8_t prescaler, void (*isr)(void), uint8_t output);
 void startPWM2(void);
 void stopPWM2(void);
 void setPWM2(uint8_t x);
+
+// Interrupciones
+void configExtInt(uint8_t num, uint8_t sense, void (*isr)(void));
 
 
 /**
@@ -100,5 +105,22 @@ static void togglePin(const IOPIN_t *pin)
     #endif
 }
 
+/**
+ * Lee el valor actual del port (buffer) para el pin correspondiente.
+ * pin: estructura que describe el pin
+ **/
+static uint8_t readPort(const IOPIN_t *pin)
+{
+    return (*(pin->port) >> pin->bit) & 0x01;
+}
+
+/**
+ * Lee el valor actual del pin correspondiente (sin buffer).
+ * pin: estructura que describe el pin
+ **/
+static uint8_t readPin(const IOPIN_t *pin)
+{
+    return (*(pin->pin) >> pin->bit) & 0x01;
+}
 
 #endif

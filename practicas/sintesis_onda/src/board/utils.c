@@ -1,7 +1,15 @@
+/**
+ * Biblioteca de utilidades generales para el Atmega8 y Atmega88.
+ **/
+
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include "utils.h"
-#include <stdlib.h>
+#include <stddef.h>
+
+// Vector de punteros a la función de manejo de la interrupción externa.
+static void (*extIntIsr[2])(void);
+
 
 /**
  * Configura un pin como entrada o salida
@@ -9,7 +17,7 @@
  * dir: 1 salida, 0 entrada
  * pullup: 1 con pullup, 0 sin pullup
  **/
-void initPin(const IOPIN_t *pin, uint8_t dir, uint8_t pullup)
+void configPin(const IOPIN_t *pin, uint8_t dir, uint8_t pullup)
 {
     if (dir)  // output mode
         setBit(*(pin->ddr), pin->bit);
@@ -24,7 +32,7 @@ void initPin(const IOPIN_t *pin, uint8_t dir, uint8_t pullup)
 }
 
 /**
- * Inicializa el PWM asociado al timer 2 (8 bits).
+ * Configura el PWM asociado al timer 2 (8 bits).
  * mode: 1 phase correct PWM
  *       3 fast PWM
  * prescaler: divisor para la frecuencia del micro
@@ -42,14 +50,34 @@ void initPin(const IOPIN_t *pin, uint8_t dir, uint8_t pullup)
  * output: 0 sin salida
  *         1 salida por OC2
  **/
-void initPWM2(uint8_t mode, uint8_t prescaler, void (*isr)(void), uint8_t output)
+void configPWM2(uint8_t mode, uint8_t prescaler, void (*isr)(void), uint8_t output)
 {
     stopPWM2();
-    setPWM2(128);  // incia en 50%
+    setPWM2(128);  // inicia en 50%
     
     PWM2.mode = mode;
     PWM2.prescaler = prescaler;
     PWM2.isr = isr;
+
+    if (isr != NULL)
+    {
+        // Habilitar interrupción de overflow del timer
+        #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)
+            setBit(TIMSK2, 0);  // TOIE2 = 1 timer 2 overflow interrupt enable
+        #elif defined (__AVR_ATmega8__)
+            setBit(TIMSK, 6);  // TOIE2 = 1 timer 2 overflow interrupt enable
+        #endif
+        sei();  // habilitar interrupciones globales
+    }
+    else
+    {
+        // Deshabilitar interrupción de overflow del timer
+        #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)
+            clearBit(TIMSK2, 0);  // TOIE2 = 0 timer 2 overflow interrupt disable
+        #elif defined (__AVR_ATmega8__)
+            clearBit(TIMSK, 6);  // TOIE2 = 0 timer 2 overflow interrupt disable
+        #endif
+    }
     
     switch(mode)
     {
@@ -104,16 +132,6 @@ void initPWM2(uint8_t mode, uint8_t prescaler, void (*isr)(void), uint8_t output
  **/
 void startPWM2(void)
 {
-    if (PWM2.isr != NULL)
-    {
-        #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)
-            setBit(TIMSK2, 0);  // TOIE2 = 1 timer 2 overflow interrupt enable
-        #elif defined (__AVR_ATmega8__)
-            setBit(TIMSK, 6);  // TOIE2 = 1 timer 2 overflow interrupt enable
-        #endif
-        sei();  // habilitar interrupciones globales
-    }
-    
     switch(PWM2.prescaler)
     {
         case 1:  // fclk
@@ -230,4 +248,97 @@ void setPWM2(uint8_t x)
 ISR(TIMER2_OVF_vect)
 {
     PWM2.isr();
+}
+
+/**
+ * Configura una interrupción externa.
+ * num: número de interupción 0 o 1
+ * sense: tipo de activación para la interrupción
+ *        0 nivel bajo
+ *        1 cualquier cambio de nivel
+ *        2 flanco descendente
+ *        3 flanco ascendente
+ * isr: puntero a la función de manejo de la interrupción. Si es NULL se
+ *      desactiva la interrupción.
+ **/
+void configExtInt(uint8_t num, uint8_t sense, void (*isr)(void))
+{
+    num = (num & 0x01);
+    uint8_t offset = num*2;
+    
+    extIntIsr[num] = isr;  // callback pointer
+    
+    #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)
+        switch(sense)
+        {
+            case 0:  // nivel bajo
+                clearBit(EICRA, 0+offset); // ISCx0 = 0
+                clearBit(EICRA, 1+offset); // ISCx1 = 0
+                break;
+            case 1:  // cualquier cambio de nivel
+                setBit(EICRA, 0+offset); // ISCx0 = 1
+                clearBit(EICRA, 1+offset); // ISCx1 = 0
+                break;
+            case 2:  // flanco descendente
+                clearBit(EICRA, 0+offset); // ISCx0 = 0
+                setBit(EICRA, 1+offset); // ISCx1 = 1
+                break;
+            case 3:  // flanco ascendente
+                setBit(EICRA, 0+offset); // ISCx0 = 1
+                setBit(EICRA, 1+offset); // ISCx1 = 1
+                break;
+        }
+    #elif defined (__AVR_ATmega8__)
+        switch(sense)
+        {
+            case 0:  // nivel bajo
+                clearBit(MCUCR, 0+offset); // ISCx0 = 0
+                clearBit(MCUCR, 1+offset); // ISCx1 = 0
+                break;
+            case 1:  // cualquier cambio de nivel
+                setBit(MCUCR, 0+offset); // ISCx0 = 1
+                clearBit(MCUCR, 1+offset); // ISCx1 = 0
+                break;
+            case 2:  // flanco descendente
+                clearBit(MCUCR, 0+offset); // ISCx0 = 0
+                setBit(MCUCR, 1+offset); // ISCx1 = 1
+                break;
+            case 3:  // flanco ascendente
+                setBit(MCUCR, 0+offset); // ISCx0 = 1
+                setBit(MCUCR, 1+offset); // ISCx1 = 1
+                break;
+        }
+    #endif
+    
+    if (isr != NULL)
+    {
+        // habilitar la interrupción
+        #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)
+            setBit(EIMSK, 0+num);  // INTx = 1
+        #elif defined (__AVR_ATmega8__)
+            setBit(GICR, 6+num);  // INTx = 1
+        #endif
+        sei(); // habilitar interrupciones globales
+    }
+    else
+    {
+        // deshabilitar la interrupción
+        #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)
+            clearBit(EIMSK, 0+num);  // INTx = 0
+        #elif defined (__AVR_ATmega8__)
+            clearBit(GICR, 6+num);  // INTx = 0
+        #endif
+    }
+}
+
+// External interrupt 0
+ISR(INT0_vect)
+{
+    extIntIsr[0]();
+}
+
+// External interrupt 1
+ISR(INT1_vect)
+{
+    extIntIsr[1]();
 }
