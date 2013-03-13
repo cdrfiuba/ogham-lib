@@ -101,7 +101,7 @@ static void togglePin(const IOPIN_t *pin)
     #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)
         setBit(*(pin->pin), pin->bit);
     #elif defined (__AVR_ATmega8__)
-        *(pin->pin) ^= (1 << pin->bit);
+        *(pin->port) ^= (1 << pin->bit);
     #endif
 }
 
