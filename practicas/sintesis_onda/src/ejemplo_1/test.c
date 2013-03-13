@@ -1,5 +1,10 @@
+/**
+ * Ejemplo 1
+ * Probar la placa encendiendo un led.
+ * Hacemos parpadear un led.
+ **/
+ 
 #include "../board/board.h"
-
 
 
 int main (void)
