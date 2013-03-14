@@ -6,7 +6,6 @@
  **/
 
 #include "../board/board.h"
-#include <stdlib.h>
 
 
 int main (void)
@@ -24,7 +23,7 @@ int main (void)
     while(1)
     {
         togglePin(&LED[0]);  // parpadear el led para saber que esta vivo
-        _delay_ms(100);  // demora para que podamos apreciar el parpadeo
+        delay_ms(100);  // demora para que podamos apreciar el parpadeo
         setPWM2(x++);  // incrementamos el ancho del pulso
     }
     

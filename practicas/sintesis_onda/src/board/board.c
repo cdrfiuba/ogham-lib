@@ -1,5 +1,6 @@
-#include <avr/io.h>
 #include <stddef.h>
+#include <avr/io.h>
+#include <util/delay.h>
 #include "board.h"
 #include "utils.h"
 
@@ -52,7 +53,7 @@ void initButton(void (*isr)(void), uint8_t debounce)
 static void buttonPressed(void)
 {
     // Filtramos los rebotes
-    _delay_ms(buttonDebounce);  
+    delay_ms(buttonDebounce);
     if (readButton() == 0)
     {
         buttonIsr();  // callback
