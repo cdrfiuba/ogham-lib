@@ -6,7 +6,6 @@
  **/
 
 #include "../board/board.h"
-#include <stdlib.h>
 
 
 void interrupcionBoton(void);
@@ -33,11 +32,11 @@ int main (void)
     while(1)
     {
         togglePin(&LED[0]);  // parpadear el led para saber que esta vivo
-        _delay_ms(100);  // demora para que podamos apreciar el parpadeo
+        delay_ms(100);  // demora para que podamos apreciar el parpadeo
         setPWM2(pwmVal);  // establecemos el ancho del pulso
     }
     
-    return 0; 
+    return 0;
 }
 
 void interrupcionBoton(void)

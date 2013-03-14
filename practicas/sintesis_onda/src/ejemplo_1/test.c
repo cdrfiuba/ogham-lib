@@ -5,6 +5,7 @@
  **/
  
 #include "../board/board.h"
+#include <util/delay.h>
 
 
 int main (void)
@@ -16,7 +17,7 @@ int main (void)
     while(1)
     {
         togglePin(&LED[0]);  // parpadear el led para saber que esta vivo
-        _delay_ms(500); // demora para que podamos apreciar el parpadeo
+        delay_ms(500); // demora para que podamos apreciar el parpadeo
     }
     
     return 0; 
