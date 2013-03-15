@@ -46,7 +46,8 @@ void initButton(void (*isr)(void), uint8_t debounce)
     buttonDebounce = debounce;
     
     configPin(&BUTTON, 0, 1);  // pin como entrada con pullup interno
-    configExtInt(0, 2, buttonPressed);  // INT0, flanco descendente
+    if (isr != NULL)
+        configExtInt(0, 2, buttonPressed);  // INT0, flanco descendente
 }
 
 // callback
