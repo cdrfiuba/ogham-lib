@@ -7,8 +7,8 @@
 static inline void delay_ms(uint16_t msec);
 
 /**
- * Produce un retardo durante una cantidad etera de milisegundos.
- * msec: tiempo en milisengundos. Rango de 1 a 65536.
+ * Produce un retardo durante una cantidad entera de milisegundos.
+ * msec: tiempo en milisegundos. Rango de 1 a 65536.
  **/
 void delay_ms(uint16_t msec)
 {
