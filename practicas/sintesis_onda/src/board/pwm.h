@@ -2,6 +2,7 @@
 #define _PWM_H_
 
 /**
+ * @file pwm.h
  * Cabecera para el manejo del PWM en Atmega8 y Atmega88.
  **/
 

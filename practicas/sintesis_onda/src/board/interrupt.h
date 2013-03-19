@@ -2,6 +2,7 @@
 #define _INTERRUPT_H_
 
 /**
+ * @file interrupt.h
  * Cabecera para el manejo de interrupciones en Atmega8 y Atmega88.
  **/
 

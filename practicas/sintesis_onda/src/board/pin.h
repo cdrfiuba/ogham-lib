@@ -2,9 +2,14 @@
 #define _PIN_H_
 
 /**
+ * @file pin.h
  * Cabecera para el manejo de pines en Atmega8 y Atmega88.
  **/
 
+/* Nota: las funciones definidas como static inline permiten al compilador tener
+ * una copia local en el archivo invocante y efectivamente optimizarlas como
+ * funciones inline.
+ */
 
 #include "bitmanip.h"
 
@@ -12,9 +17,13 @@
 /**
  * IOPIN_t
  * Estructura que define todo lo necesario para controlar un pin.
+ * 
  * Ejemplo de uso:
+ * @code
  * #include <avr/io.h>
  * IOPIN_t led1 = {&PORTC, &DDRC, &PINC, PIN3);
+ * @endcode
+ * @see configPin()
  **/
 typedef struct
 {
@@ -38,10 +47,7 @@ static inline uint8_t readPin(const IOPIN_t *pin);
 
 /**
  * Enciende el bit del puerto.
- * pin: estructura que define al pin
- * Nota: función definida como static en el archivo de cabecera para que se
- * copie en cada módulo invoncante como inline. El compilador puede optimizar
- * mucho más de esta forma.
+ * @param pin puntero a la estructura que describe al pin
  **/
 void setPin(const IOPIN_t *pin)
 {
@@ -50,10 +56,7 @@ void setPin(const IOPIN_t *pin)
 
 /**
  * Apaga el bit del puerto.
- * pin: estructura que define al pin
- * Nota: función definida como static en el archivo de cabecera para que se
- * copie en cada módulo invoncante como inline. El compilador puede optimizar
- * mucho más de esta forma.
+ * @param pin puntero a la estructura que describe al pin
  **/
 void clearPin(const IOPIN_t *pin)
 {
@@ -62,10 +65,7 @@ void clearPin(const IOPIN_t *pin)
 
 /**
  * Invierte el bit del puerto.
- * pin: estructura que define al pin
- * Nota: función definida como static en el archivo de cabecera para que se
- * copie en cada módulo invoncante como inline. El compilador puede optimizar
- * mucho más de esta forma.
+ * @param pin puntero a la estructura que describe al pin
  **/
 void togglePin(const IOPIN_t *pin)
 {
@@ -78,7 +78,7 @@ void togglePin(const IOPIN_t *pin)
 
 /**
  * Lee el valor actual del port (buffer) para el pin correspondiente.
- * pin: estructura que describe el pin
+ * @param pin puntero a la estructura que describe al pin
  **/
 uint8_t readPort(const IOPIN_t *pin)
 {
@@ -87,7 +87,7 @@ uint8_t readPort(const IOPIN_t *pin)
 
 /**
  * Lee el valor actual del pin correspondiente (sin buffer).
- * pin: estructura que describe el pin
+ * @param pin puntero a la estructura que describe al pin
  **/
 uint8_t readPin(const IOPIN_t *pin)
 {
