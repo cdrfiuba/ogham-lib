@@ -7,7 +7,6 @@
 
 static uint8_t buttonDebounce;
 static void (*buttonIsr)(void);
-
 static void buttonPressed(void);
 
 
@@ -37,8 +36,8 @@ void initLeds(void)
 
 /**
  * Inicializa el botón.
- * isr: puntero a la función que será llamada cuando se presione el botón.
- * debounce: cantidad de milisegundos para filtrar los rebotes
+ * @param isr Puntero a la función que será llamada cuando se presione el botón.
+ * @param debounce Cantidad de milisegundos para filtrar los rebotes
  **/
 void initButton(void (*isr)(void), uint8_t debounce)
 {
@@ -63,6 +62,9 @@ static void buttonPressed(void)
 
 /**
  * Retorna el estado actual del botón.
+ * @return
+ *      @li 0: si el botón está presionado
+ *      @li 1: si el botón no está presionado
  **/
 uint8_t readButton(void)
 {

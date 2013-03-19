@@ -1,6 +1,6 @@
-/**
+/*
  * Biblioteca para el manejo de pines en Atmega8 y Atmega88.
- **/
+ */
 
 #include <avr/io.h>
 #include "pin.h"
@@ -8,10 +8,15 @@
 
 /**
  * Configura un pin como entrada o salida
- * pin: estructura que define al pin
- * dir: 1 salida, 0 entrada
- * pullup: 1 con pullup, 0 sin pullup
- **/
+ * @param pin puntero a la estructura que describe al pin
+ * @param dir
+ *      @li 1: salida
+ *      @li 0: entrada
+ * @param pullup
+ *      @li 1: con pullup
+ *      @li 0: sin pullup
+ * @see setPin(), clearPin(), togglePin(), readPort()
+ */
 void configPin(const IOPIN_t *pin, uint8_t dir, uint8_t pullup)
 {
     if (dir)  // output mode

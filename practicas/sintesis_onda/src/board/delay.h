@@ -1,6 +1,10 @@
 #ifndef _DELAY_H_
 #define _DELAY_H_
 
+/**
+ * @file delay.h
+ * Cabecera para funciones de demoras temporales.
+ */
 
 #include <util/delay_basic.h>
 
@@ -8,7 +12,7 @@ static inline void delay_ms(uint16_t msec);
 
 /**
  * Produce un retardo durante una cantidad entera de milisegundos.
- * msec: tiempo en milisegundos. Rango de 1 a 65536.
+ * @param msec tiempo en milisegundos. Rango de 1 a 65536.
  **/
 void delay_ms(uint16_t msec)
 {

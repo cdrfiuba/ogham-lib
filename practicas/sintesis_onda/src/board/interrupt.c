@@ -1,6 +1,6 @@
-/**
+/*
  * Biblioteca para el manejo de interrupciones en Atmega8 y Atmega88.
- **/
+ */
 
 #include <stddef.h>
 #include <avr/interrupt.h>
@@ -14,14 +14,14 @@ static void (*extIntIsr[2])(void);
 
 /**
  * Configura una interrupción externa.
- * num: número de interupción 0 o 1
- * sense: tipo de activación para la interrupción
- *        0 nivel bajo
- *        1 cualquier cambio de nivel
- *        2 flanco descendente
- *        3 flanco ascendente
- * isr: puntero a la función de manejo de la interrupción. Si es NULL se
- *      desactiva la interrupción.
+ * @param num número de interupción 0 o 1
+ * @param sense tipo de activación para la interrupción
+ *        @li 0: nivel bajo
+ *        @li 1: cualquier cambio de nivel
+ *        @li 2: flanco descendente
+ *        @li 3: flanco ascendente
+ * @param isr puntero a la función de manejo de la interrupción. Si es NULL se
+ *        desactiva la interrupción.
  **/
 void configExtInt(uint8_t num, uint8_t sense, void (*isr)(void))
 {
@@ -93,13 +93,19 @@ void configExtInt(uint8_t num, uint8_t sense, void (*isr)(void))
     }
 }
 
-// External interrupt 0
+/**
+ * @internal
+ * External interrupt 0
+ */
 ISR(INT0_vect)
 {
     extIntIsr[0]();
 }
 
-// External interrupt 1
+/**
+ * @internal
+ * External interrupt 1
+ */
 ISR(INT1_vect)
 {
     extIntIsr[1]();

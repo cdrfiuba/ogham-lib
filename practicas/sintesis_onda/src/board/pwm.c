@@ -1,6 +1,6 @@
-/**
+/*
  * Biblioteca para el manejo del PWM en Atmega8 y Atmega88.
- **/
+ */
 
 #include <stddef.h>
 #include <avr/interrupt.h>
@@ -11,22 +11,22 @@
 
 /**
  * Configura el PWM asociado al timer 2 (8 bits).
- * mode: 1 phase correct PWM
- *       3 fast PWM
- * prescaler: divisor para la frecuencia del micro
- *            1 fclk
- *            2 fclk/8
- *            3 fclk/32
- *            4 fclk/64
- *            5 fclk/128
- *            6 fclk/256
- *            7 fclk/1024
- * isr: puntero a la función de manejo de la interrupción que se produce cada
- *      vez que se alcanza el nivel de comparación. La función no debe recibir
- *      ningún parámetro y no debe devolver nada. Ej: void mifunc(void){}
- *      Si es NULL no se generará la interrupción.
- * output: 0 sin salida
- *         1 salida por OC2
+ * @param mode @li 1: phase correct PWM
+ *             @li 3: fast PWM
+ * @param prescaler divisor para la frecuencia del micro
+ *            @li 1: fclk
+ *            @li 2: fclk/8
+ *            @li 3: fclk/32
+ *            @li 4: fclk/64
+ *            @li 5: fclk/128
+ *            @li 6: fclk/256
+ *            @li 7: fclk/1024
+ * @param isr puntero a la función de manejo de la interrupción que se produce
+ *  cada vez que se alcanza el nivel de comparación. La función no debe recibir
+ *  ningún parámetro y no debe devolver nada. Ej: void mifunc(void){}. Si es
+ *  NULL no se generará la interrupción.
+ * @param output @li 0 sin salida
+ *               @li 1 salida por OC2
  **/
 void configPWM2(uint8_t mode, uint8_t prescaler, void (*isr)(void), uint8_t output)
 {
@@ -212,6 +212,7 @@ void stopPWM2(void)
 
 /**
  * Establece el ancho de pulso.
+ * @param x ancho del pulso
  **/
 void setPWM2(uint8_t x)
 {
@@ -222,7 +223,10 @@ void setPWM2(uint8_t x)
     #endif
 }
 
-// Timer 2 overflow interrupt
+/**
+ * @internal
+ * Timer 2 overflow interrupt
+ */
 ISR(TIMER2_OVF_vect)
 {
     PWM2.isr();
