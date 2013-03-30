@@ -45,8 +45,8 @@ hex: elf
 program: hex
 	avrdude -c usbtiny -p $(TARGET_P) -U f:w:$(TARGET).hex
 
-program_dw: bin
-	avarice -w -j usb --erase --program --file $(TARGET).bin
+program_dw: elf
+	avarice -w -j usb --erase --program --file $(TARGET).elf
 
 fuse:
 	avrdude -c usbtiny -p $(TARGET_P) -U lfuse:w:$(LFUSE):m -U hfuse:w:$(HFUSE):m
