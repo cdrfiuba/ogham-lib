@@ -11,6 +11,7 @@
 #include "bitmanip.h"
 #include "pin.h"
 #include "pwm.h"
+#include "adc.h"
 #include "interrupt.h"
 #include "delay.h"
 

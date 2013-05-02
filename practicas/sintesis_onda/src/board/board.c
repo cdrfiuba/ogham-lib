@@ -17,6 +17,7 @@ static void buttonPressed(void);
 void initBoard(void)
 {
     initLeds();
+    initADC();
     initButton(NULL, 0);
 }
 
@@ -47,6 +48,20 @@ void initButton(void (*isr)(void), uint8_t debounce)
     configPin(&BUTTON, 0, 1);  // pin como entrada con pullup interno
     if (isr != NULL)
         configExtInt(0, 2, buttonPressed);  // INT0, flanco descendente
+}
+
+/**
+ * Inicializa el conversor analógico/digital para leer el LDR.
+ **/
+void initADC(void)
+{
+    IOPIN_t LDR = {&PORTC, &DDRC, &PINC, PIN0};
+    
+    // Configuro pin del LDR como entrada sin pullup
+    configPin(&LDR, 0, 0);
+    
+    configADC();
+    setADCChannel(0);
 }
 
 // callback
