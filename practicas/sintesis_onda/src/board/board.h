@@ -23,5 +23,6 @@ void initBoard(void);
 void initLeds(void);
 void initButton(void (*isr)(void), uint8_t debounce);
 uint8_t readButton(void);
+void initADC(void);
 
 #endif
