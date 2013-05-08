@@ -9,9 +9,10 @@
 
 /**
  * Configura el conversor analógico/digital.
+ * @param presc Prescaler para el conversor: 0 a 7
  * @see setADChannel(), getADCValue()
  */
-void configADC(void)
+void configADC(uint8_t presc)
 {
     // Encendemos el ADC
     clearBit(PRR, 0);
@@ -25,8 +26,9 @@ void configADC(void)
     // No auto trigger
     ADCSRB = 0x00;
     
-    // Habilitar el ADC (ADEN = 1); fclk/128 (ADPS2:0=111)
-    ADCSRA = 0b10000111;
+    // Habilitar el ADC (ADEN = 1); ADPS2:0=presc
+    ADCSRA = 0b00000111 & presc;
+    setBit(ADCSRA, 7);
 }
 
 /**

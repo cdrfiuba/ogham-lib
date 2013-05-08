@@ -1,6 +1,6 @@
 /**
  * Ejemplo 6
- * Prueba del ADC midiendo el LDR de la placa.
+ * Prueba del ADC midiendo el LDR de la placa y mostrando el valor con los LEDs.
  **/
 
 #include "../board/board.h"
@@ -12,20 +12,9 @@ int main (void)
     // Inicializamos la placa
     initBoard();
     
-    //setADCChannel(0);
-    uint8_t a=0;
-    int8_t s=1;
-    
     // Bucle infinito
     while(1)
     {
-        //togglePin(&LED[0]);  // parpadear el led para saber que esta vivo
-
-        //delay_ms(100);  // demora para que podamos apreciar el parpadeo
-        //getADCValue();
-        //if (a==255 && s == 1) s = -s;
-        //if (a==0 && s == -1) s = -s;
-        //a += s;
         barraLed(getADCValue());
     }
     

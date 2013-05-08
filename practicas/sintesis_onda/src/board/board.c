@@ -60,7 +60,7 @@ void initADC(void)
     // Configuro pin del LDR como entrada sin pullup
     configPin(&LDR, 0, 0);
     
-    configADC();
+    configADC(7);  // el prescaler depende de la velocidad del clock
     setADCChannel(0);
 }
 
