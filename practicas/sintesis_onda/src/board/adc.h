@@ -7,7 +7,7 @@
  **/
 
 
-void configADC(void);
+void configADC(uint8_t presc);
 void setADCChannel(uint8_t chan);
 uint8_t getADCValue(void);
 
