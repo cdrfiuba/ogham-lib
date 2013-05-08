@@ -14,20 +14,22 @@
  */
 void configADC(uint8_t presc)
 {
+#if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)
     // Encendemos el ADC
     clearBit(PRR, 0);
-    
+
+    // No auto trigger
+    ADCSRB = 0x00;
+#endif
+        
     /* REFS = 01 (AVcc)
        ADLAR = 1 (left adjusted for 8 bit read)
        MUX = 1111 (GND)
     */
     ADMUX = 0b01101111;
     
-    // No auto trigger
-    ADCSRB = 0x00;
-    
     // Habilitar el ADC (ADEN = 1); ADPS2:0=presc
-    ADCSRA = 0b00000111 & presc;
+    ADCSRA = (0b00000111 & presc);
     setBit(ADCSRA, 7);
 }
 
