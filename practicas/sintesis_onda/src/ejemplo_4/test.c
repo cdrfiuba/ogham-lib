@@ -19,7 +19,7 @@ volatile uint8_t pwmVal=0;
 
 // Tabla con los valores de la señal muestreada
 // Tenemos que indicarle que la tabla se almacena en la memoria del programa
-uint8_t tabla[] PROGMEM = {128,153,178,200,220,236,247,254,255,251,242,228,211,189,166,140,115,89,66,44,27,13,4,0,1,8,19,35,55,77,102,127};
+const uint8_t tabla[] PROGMEM = {128,153,178,200,220,236,247,254,255,251,242,228,211,189,166,140,115,89,66,44,27,13,4,0,1,8,19,35,55,77,102,127};
 
 // Tamaño de la tabla
 const uint8_t largo = sizeof(tabla);
