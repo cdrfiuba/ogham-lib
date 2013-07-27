@@ -1,0 +1,37 @@
+# use glob syntax.
+syntax: glob
+
+# archivos generales
+*.zip
+*.swp
+*~
+
+# archivos de compilación
+*.bin
+*.hex
+*.lst
+*.elf
+*.map
+*.d
+*.o
+*.a
+
+# archivos de hg
+*.orig
+
+# archivos de kicad
+*.gbl
+*.drl
+*-cache.lib
+*.dcm
+
+# archivos de latex
+*.log
+*.aux
+*.toc
+# *.pdf  <-- se usan para las figuras vectoriales!
+*.out
+
+# documentación generada por Doxygen
+src/board/doc
+
