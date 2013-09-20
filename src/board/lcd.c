@@ -103,6 +103,22 @@ void configLCD(const IOPIN_t *databus, const IOPIN_t *enPin, const IOPIN_t *rwPi
 }
 
 /**
+ * Imprime una cadena de texto por el LCD. La cadena debe ser de longitud menor
+ * a 255 bytes y debe finalizar con ASCII cero.
+ * @param buf puntero a la cadena de texto
+ * @return la cantidad de caracteres impresos
+ **/
+uint8_t printLCD(char *buf)
+{
+    uint8_t i;
+    
+    for (i=0; i<256 && buf[i] != 0; i++)
+        sendDataLCD(buf[i]);
+    
+    return i;
+}
+
+/**
  * Enviar un byte de comando al LCD.
  * @param cmd comando a enviar
  * @see configLCD()
