@@ -11,6 +11,7 @@
  * funciones inline.
  */
 
+#include <avr/io.h>
 #include "bitmanip.h"
 
 
@@ -20,7 +21,7 @@
  * 
  * Ejemplo de uso:
  * @code
- * #include <avr/io.h>
+ * #include <pin.h>
  * IOPIN_t led1 = {&PORTC, &DDRC, &PINC, PIN3);
  * @endcode
  * @see configPin()
@@ -33,6 +34,20 @@ typedef struct
     uint8_t bit;
 } IOPIN_t;
 
+// Macros
+
+/**
+ * Crea la definición de un pin de manera conveniente.
+ * Ejemplo de uso:
+ * @code
+ * #include <pin.h>
+ * IOPIN_t led1 = definePin(C, 3);
+ * @endcode
+ * @param
+ *  a letra que identifica al puerto. Debe estar en mayúscula.
+ *  b número que identifica el pin, de 0 a 7
+ **/
+#define definePin(a, b) {&PORT##a, &DDR##a, &PIN##a, b}
 
 // Funciones públicas
 

@@ -2,7 +2,6 @@
  * Biblioteca para el manejo de pines en Atmega8 y Atmega88.
  */
 
-#include <avr/io.h>
 #include "pin.h"
 
 
