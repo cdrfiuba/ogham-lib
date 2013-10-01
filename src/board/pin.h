@@ -57,6 +57,9 @@ static inline void clearPin(const IOPIN_t *pin);
 static inline void togglePin(const IOPIN_t *pin);
 static inline uint8_t readPort(const IOPIN_t *pin);
 static inline uint8_t readPin(const IOPIN_t *pin);
+static inline void configPinOut(const IOPIN_t *pin);
+static inline void configPinIn(const IOPIN_t *pin);
+
 
 // Funciones públicas inline
 
@@ -109,5 +112,22 @@ uint8_t readPin(const IOPIN_t *pin)
     return (*(pin->pin) >> pin->bit) & 0x01;
 }
 
+/**
+ * Configura el pin como salida.
+ * @param pin puntero a la estructura que describe al pin
+ **/
+void configPinOut(const IOPIN_t *pin)
+{
+    configPin(pin, 1, 0);
+}
+
+/**
+ * Configura el pin como entrada (sin pullup).
+ * @param pin puntero a la estructura que describe al pin
+ **/
+void configPinIn(const IOPIN_t *pin)
+{
+    configPin(pin, 0, 0);
+}
 
 #endif
