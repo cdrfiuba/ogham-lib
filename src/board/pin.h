@@ -84,7 +84,7 @@ void clearPin(const IOPIN_t *pin)
  **/
 void togglePin(const IOPIN_t *pin)
 {
-    #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)
+    #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)  || (__AVR_ATmega168P__) || (__AVR_ATmega168P__) || (__AVR_ATmega328__) || (__AVR_ATmega328P__)
         setBit(*(pin->pin), pin->bit);
     #elif defined (__AVR_ATmega8__)
         *(pin->port) ^= (1 << pin->bit);

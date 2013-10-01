@@ -14,7 +14,7 @@
  */
 void configADC(uint8_t presc)
 {
-#if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)
+    #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)  || (__AVR_ATmega168P__) || (__AVR_ATmega168P__) || (__AVR_ATmega328__) || (__AVR_ATmega328P__)
     // Encendemos el ADC
     clearBit(PRR, 0);
 

@@ -40,7 +40,7 @@ void configPWM2(uint8_t mode, uint8_t prescaler, void (*isr)(void), uint8_t outp
     if (isr != NULL)
     {
         // Habilitar interrupción de overflow del timer
-        #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)
+    #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)  || (__AVR_ATmega168P__) || (__AVR_ATmega168P__) || (__AVR_ATmega328__) || (__AVR_ATmega328P__)
             setBit(TIMSK2, 0);  // TOIE2 = 1 timer 2 overflow interrupt enable
         #elif defined (__AVR_ATmega8__)
             setBit(TIMSK, 6);  // TOIE2 = 1 timer 2 overflow interrupt enable
@@ -50,7 +50,7 @@ void configPWM2(uint8_t mode, uint8_t prescaler, void (*isr)(void), uint8_t outp
     else
     {
         // Deshabilitar interrupción de overflow del timer
-        #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)
+    #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)  || (__AVR_ATmega168P__) || (__AVR_ATmega168P__) || (__AVR_ATmega328__) || (__AVR_ATmega328P__)
             clearBit(TIMSK2, 0);  // TOIE2 = 0 timer 2 overflow interrupt disable
         #elif defined (__AVR_ATmega8__)
             clearBit(TIMSK, 6);  // TOIE2 = 0 timer 2 overflow interrupt disable
@@ -60,7 +60,7 @@ void configPWM2(uint8_t mode, uint8_t prescaler, void (*isr)(void), uint8_t outp
     switch(mode)
     {
         case 1:  // phase correct PWM
-            #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)
+    #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)  || (__AVR_ATmega168P__) || (__AVR_ATmega168P__) || (__AVR_ATmega328__) || (__AVR_ATmega328P__)
                 setBit(TCCR2A, 0);  // WGM20 = 1
                 clearBit(TCCR2A, 1);  // WGM21 = 0
                 clearBit(TCCR2B, 3);  // WGM22 = 0
@@ -71,7 +71,7 @@ void configPWM2(uint8_t mode, uint8_t prescaler, void (*isr)(void), uint8_t outp
             break;
         case 3:  // fast PWM
         default:
-            #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)
+    #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)  || (__AVR_ATmega168P__) || (__AVR_ATmega168P__) || (__AVR_ATmega328__) || (__AVR_ATmega328P__)
                 setBit(TCCR2A, 0);  // WGM20 = 1
                 setBit(TCCR2A, 1);  // WGM21 = 1
                 clearBit(TCCR2B, 3);  // WGM22 = 0
@@ -85,7 +85,7 @@ void configPWM2(uint8_t mode, uint8_t prescaler, void (*isr)(void), uint8_t outp
     if (output)  // configuramos el pin de salida
     {
         setBit(DDRB, PIN3);  // pin como salida
-        #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)
+    #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)  || (__AVR_ATmega168P__) || (__AVR_ATmega168P__) || (__AVR_ATmega328__) || (__AVR_ATmega328P__)
             setBit(TCCR2A, 7);  // COM2A1 = 1
             clearBit(TCCR2A, 6);  // COM2A0 = 0
         #elif defined (__AVR_ATmega8__)
@@ -95,7 +95,7 @@ void configPWM2(uint8_t mode, uint8_t prescaler, void (*isr)(void), uint8_t outp
     }
     else  // sin salida por pin
     {
-        #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)
+    #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)  || (__AVR_ATmega168P__) || (__AVR_ATmega168P__) || (__AVR_ATmega328__) || (__AVR_ATmega328P__)
             clearBit(TCCR2A, 7);  // COM2A1 = 0
             clearBit(TCCR2A, 6);  // COM2A0 = 0
         #elif defined (__AVR_ATmega8__)

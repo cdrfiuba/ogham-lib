@@ -30,7 +30,7 @@ void configExtInt(uint8_t num, uint8_t sense, void (*isr)(void))
     
     extIntIsr[num] = isr;  // callback pointer
     
-    #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)
+    #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)  || (__AVR_ATmega168P__) || (__AVR_ATmega168P__) || (__AVR_ATmega328__) || (__AVR_ATmega328P__)
         switch(sense)
         {
             case 0:  // nivel bajo
@@ -75,7 +75,7 @@ void configExtInt(uint8_t num, uint8_t sense, void (*isr)(void))
     if (isr != NULL)
     {
         // habilitar la interrupción
-        #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)
+        #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__) || (__AVR_ATmega168P__) || (__AVR_ATmega168P__) || (__AVR_ATmega328__) || (__AVR_ATmega328P__)
             setBit(EIMSK, 0+num);  // INTx = 1
         #elif defined (__AVR_ATmega8__)
             setBit(GICR, 6+num);  // INTx = 1
@@ -85,7 +85,7 @@ void configExtInt(uint8_t num, uint8_t sense, void (*isr)(void))
     else
     {
         // deshabilitar la interrupción
-        #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)
+        #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__) || (__AVR_ATmega168P__) || (__AVR_ATmega168P__) || (__AVR_ATmega328__) || (__AVR_ATmega328P__)
             clearBit(EIMSK, 0+num);  // INTx = 0
         #elif defined (__AVR_ATmega8__)
             clearBit(GICR, 6+num);  // INTx = 0
