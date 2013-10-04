@@ -5,7 +5,7 @@
  * del pulso. Se puede medir la salida en el pin 17 (OC2) con un osciloscopio.
  **/
 
-#include "../board/board.h"
+#include "board/board.h"
 
 
 int main (void)

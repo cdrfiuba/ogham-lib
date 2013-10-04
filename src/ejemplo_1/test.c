@@ -4,9 +4,8 @@
  * Hacemos parpadear un led.
  **/
  
-#include "../board/board.h"
-#include <util/delay.h>
-
+#include "board/board.h"
+#include "lib/delay.h"
 
 int main (void)
 {

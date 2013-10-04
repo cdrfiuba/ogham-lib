@@ -3,11 +3,10 @@
  * Plataforma: Atmega8, Atmega88, Atmega48, Atmega168.
  */
 
-#include <avr/io.h>
-#include "lcd.h"
-#include "bitmanip.h"
-#include "pin.h"
-#include "delay.h"
+#include "lib/bitmanip.h"
+#include "lib/pin.h"
+#include "lib/delay.h"
+#include "mods/lcd.h"
 
 static IOPIN_t databusLCD;
 static IOPIN_t enPinLCD;
