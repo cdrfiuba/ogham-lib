@@ -7,7 +7,7 @@
  **/
 
 #include <avr/pgmspace.h>
-#include "../board/board.h"
+#include "board/board.h"
 
 // Declaración de las funciones
 void interrupcionPWM(void);

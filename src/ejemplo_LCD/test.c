@@ -2,8 +2,8 @@
  * Prueba del LCD.
  **/
 
-#include "../board/board.h"
-#include "../board/lcd.h"
+#include "board/board.h"
+#include "mods/lcd.h"
 
 // Definimos los pines del micro
 static const IOPIN_t databusLCD = {&PORTD, &DDRD, &PIND, 0};  // Port D low nibble

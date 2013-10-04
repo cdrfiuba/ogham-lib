@@ -3,8 +3,8 @@
  */
 
 #include <avr/io.h>
-#include "adc.h"
-#include "bitmanip.h"
+#include "lib/adc.h"
+#include "lib/bitmanip.h"
 
 
 /**

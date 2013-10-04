@@ -6,7 +6,7 @@
  **/
  
 #include <avr/io.h>
-#include "utils.h"
+#include "lib/utils.h"
 
 
 // LEDs

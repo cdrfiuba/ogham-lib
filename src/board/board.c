@@ -1,8 +1,8 @@
 #include <stddef.h>
 #include <avr/io.h>
-#include <util/delay.h>
 #include "board.h"
-#include "utils.h"
+#include "lib/utils.h"
+#include "lib/delay.h"
 
 
 static uint8_t buttonDebounce;

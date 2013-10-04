@@ -3,7 +3,7 @@
  * Prueba del ADC midiendo el LDR de la placa y mostrando el valor con los LEDs.
  **/
 
-#include "../board/board.h"
+#include "board/board.h"
 
 void barraLed(uint8_t val);
 
