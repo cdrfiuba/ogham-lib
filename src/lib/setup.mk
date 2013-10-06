@@ -17,20 +17,24 @@ ifeq ($(MMCU), atmega8)
 	TARGET_P = m8
 	HFUSE = 0xd9
 	LFUSE = 0xe4
-	MMCU_N = 0
 else
 ifeq ($(MMCU), atmega88)
 	TARGET_P = m88
 	HFUSE = 0xdf
 	# external clock, no divide by 8
 	LFUSE = 0xf7
-	MMCU_N = 1
+else
+ifeq ($(MMCU), atmega328)
+	TARGET_P = m328
+	HFUSE = 0xd9
+	# external clock, no divide by 8
+	LFUSE = 0xed
 else
 	$(error Target no soportado)
 endif
 endif
 
-CDEFINES = -DMMCU=$(MMCU_N) -DF_CPU=$(F_CPU)
+CDEFINES = -DF_CPU=$(F_CPU)
 
 # Reglas
 ########
