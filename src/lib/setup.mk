@@ -33,6 +33,7 @@ else
 	$(error Target no soportado)
 endif
 endif
+endif
 
 CDEFINES = -DF_CPU=$(F_CPU)
 
