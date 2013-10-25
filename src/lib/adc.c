@@ -20,7 +20,8 @@ void configADC(uint8_t presc)
 
     // No auto trigger
     ADCSRB = 0x00;
-#endif
+    
+    #endif
         
     /* REFS = 01 (AVcc)
        ADLAR = 1 (left adjusted for 8 bit read)
