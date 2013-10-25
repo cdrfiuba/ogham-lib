@@ -36,6 +36,14 @@ typedef struct
 
 // Macros
 
+// Constantes para dirección del pin
+#define PIN_DIR_IN 0
+#define PIN_DIR_OUT 1
+
+// Constantes para resistencia de pullup
+#define PIN_NO_PULLUP 0
+#define PIN_PULLUP 1
+
 /**
  * Crea la definición de un pin de manera conveniente.
  * Ejemplo de uso:
@@ -118,7 +126,7 @@ uint8_t readPin(const IOPIN_t *pin)
  **/
 void configPinOut(const IOPIN_t *pin)
 {
-    configPin(pin, 1, 0);
+    configPin(pin, PIN_DIR_OUT, PIN_NO_PULLUP);
 }
 
 /**
@@ -127,7 +135,7 @@ void configPinOut(const IOPIN_t *pin)
  **/
 void configPinIn(const IOPIN_t *pin)
 {
-    configPin(pin, 0, 0);
+    configPin(pin, PIN_DIR_IN, PIN_NO_PULLUP);
 }
 
 #endif

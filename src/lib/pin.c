@@ -9,21 +9,21 @@
  * Configura un pin como entrada o salida
  * @param pin puntero a la estructura que describe al pin
  * @param dir
- *      @li 1: salida
- *      @li 0: entrada
+ *      @li PIN_DIR_OUT: salida
+ *      @li PIN_DIR_IN: entrada
  * @param pullup
- *      @li 1: con pullup
- *      @li 0: sin pullup
+ *      @li PIN_PULLUP: con pullup
+ *      @li PIN_NO_PULLUP: sin pullup
  * @see setPin(), clearPin(), togglePin(), readPort()
  */
 void configPin(const IOPIN_t *pin, uint8_t dir, uint8_t pullup)
 {
-    if (dir)  // output mode
+    if (dir == PIN_DIR_OUT)  // output mode
         setBit(*(pin->ddr), pin->bit);
     else  // input mode
     {
         clearBit(*(pin->ddr), pin->bit);
-        if (pullup)
+        if (pullup == PIN_PULLUP)
             setBit(*(pin->port), pin->bit);  // con pullup
         else
             clearBit(*(pin->port), pin->bit);  // sin pullup
