@@ -24,6 +24,11 @@ ifeq ($(MMCU), atmega88)
 	# external clock, no divide by 8
 	LFUSE = 0xf7
 else
+ifeq ($(MMCU), atmega168)
+	TARGET_P = m168
+	HFUSE = 0xDF
+	LFUSE = 0xCF
+else
 ifeq ($(MMCU), atmega328)
 	TARGET_P = m328
 	HFUSE = 0xd9
@@ -34,7 +39,7 @@ else
 endif
 endif
 endif
-
+endif
 CDEFINES = -DF_CPU=$(F_CPU)
 
 # Reglas
