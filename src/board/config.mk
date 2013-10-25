@@ -1,2 +1,2 @@
-MMCU ?= atmega88
-F_CPU ?= 18432000UL
+MMCU ?= atmega168
+F_CPU ?= 20000000UL

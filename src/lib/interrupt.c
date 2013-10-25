@@ -30,7 +30,9 @@ void configExtInt(uint8_t num, uint8_t sense, void (*isr)(void))
     
     extIntIsr[num] = isr;  // callback pointer
     
-    #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__)  || (__AVR_ATmega168P__) || (__AVR_ATmega168P__) || (__AVR_ATmega328__) || (__AVR_ATmega328P__)
+    #if    defined (__AVR_ATmega88__)  || defined (__AVR_ATmega88A__)  || defined (__AVR_ATmega88P__)  ||\
+	       defined (__AVR_ATmega168__) || defined (__AVR_ATmega168P__) ||                                \
+		   defined (__AVR_ATmega328__) || defined (__AVR_ATmega328P__)
         switch(sense)
         {
             case 0:  // nivel bajo
@@ -38,19 +40,19 @@ void configExtInt(uint8_t num, uint8_t sense, void (*isr)(void))
                 clearBit(EICRA, 1+offset); // ISCx1 = 0
                 break;
             case 1:  // cualquier cambio de nivel
-                setBit(EICRA, 0+offset); // ISCx0 = 1
+                setBit(EICRA, 0+offset);   // ISCx0 = 1
                 clearBit(EICRA, 1+offset); // ISCx1 = 0
                 break;
             case 2:  // flanco descendente
                 clearBit(EICRA, 0+offset); // ISCx0 = 0
-                setBit(EICRA, 1+offset); // ISCx1 = 1
+                setBit(EICRA, 1+offset);   // ISCx1 = 1
                 break;
             case 3:  // flanco ascendente
-                setBit(EICRA, 0+offset); // ISCx0 = 1
-                setBit(EICRA, 1+offset); // ISCx1 = 1
+                setBit(EICRA, 0+offset);   // ISCx0 = 1
+                setBit(EICRA, 1+offset);   // ISCx1 = 1
                 break;
         }
-    #elif defined (__AVR_ATmega8__)
+    #elif  defined (__AVR_ATmega8__)
         switch(sense)
         {
             case 0:  // nivel bajo
@@ -58,16 +60,16 @@ void configExtInt(uint8_t num, uint8_t sense, void (*isr)(void))
                 clearBit(MCUCR, 1+offset); // ISCx1 = 0
                 break;
             case 1:  // cualquier cambio de nivel
-                setBit(MCUCR, 0+offset); // ISCx0 = 1
+                setBit(MCUCR, 0+offset);   // ISCx0 = 1
                 clearBit(MCUCR, 1+offset); // ISCx1 = 0
                 break;
             case 2:  // flanco descendente
                 clearBit(MCUCR, 0+offset); // ISCx0 = 0
-                setBit(MCUCR, 1+offset); // ISCx1 = 1
+                setBit(MCUCR, 1+offset);   // ISCx1 = 1
                 break;
             case 3:  // flanco ascendente
-                setBit(MCUCR, 0+offset); // ISCx0 = 1
-                setBit(MCUCR, 1+offset); // ISCx1 = 1
+                setBit(MCUCR, 0+offset);   // ISCx0 = 1
+                setBit(MCUCR, 1+offset);   // ISCx1 = 1
                 break;
         }
     #endif
@@ -75,21 +77,25 @@ void configExtInt(uint8_t num, uint8_t sense, void (*isr)(void))
     if (isr != NULL)
     {
         // habilitar la interrupción
-        #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__) || (__AVR_ATmega168P__) || (__AVR_ATmega168P__) || (__AVR_ATmega328__) || (__AVR_ATmega328P__)
-            setBit(EIMSK, 0+num);  // INTx = 1
-        #elif defined (__AVR_ATmega8__)
-            setBit(GICR, 6+num);  // INTx = 1
-        #endif
+    #if    defined (__AVR_ATmega88__)  || defined (__AVR_ATmega88A__)  || defined (__AVR_ATmega88P__)  ||\
+	       defined (__AVR_ATmega168__) || defined (__AVR_ATmega168P__) ||                                \
+		   defined (__AVR_ATmega328__) || defined (__AVR_ATmega328P__)
+            setBit(EIMSK, 0+num);   // INTx = 1
+    #elif  defined (__AVR_ATmega8__)
+            setBit(GICR, 6+num);    // INTx = 1
+    #endif
         sei(); // habilitar interrupciones globales
     }
     else
     {
         // deshabilitar la interrupción
-        #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || (__AVR_ATmega88P__) || (__AVR_ATmega168P__) || (__AVR_ATmega168P__) || (__AVR_ATmega328__) || (__AVR_ATmega328P__)
+    #if    defined (__AVR_ATmega88__)  || defined (__AVR_ATmega88A__)  || defined (__AVR_ATmega88P__)  ||\
+	       defined (__AVR_ATmega168__) || defined (__AVR_ATmega168P__) ||                                \
+		   defined (__AVR_ATmega328__) || defined (__AVR_ATmega328P__)
             clearBit(EIMSK, 0+num);  // INTx = 0
-        #elif defined (__AVR_ATmega8__)
-            clearBit(GICR, 6+num);  // INTx = 0
-        #endif
+    #elif defined (__AVR_ATmega8__)
+            clearBit(GICR, 6+num);   // INTx = 0
+    #endif
     }
 }
 
