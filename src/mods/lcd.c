@@ -13,12 +13,15 @@ static IOPIN_t enPinLCD;
 static IOPIN_t rwPinLCD;
 static IOPIN_t rsPinLCD;
 
+static uint8_t numLines = 2;
+static uint8_t numCols = 16;
+
 static inline void writeByteLCD(uint8_t data);
 static inline void writeNibbleLCD(uint8_t nib);
 
 
 /**
- * Configura el conversor analógico/digital.
+ * Configura el display LCD.
  * @param databus Puerto a donde están conectadas las líneas de datos del
  *                display. El campo IOPIN_t.bit debe ser 0 si las líneas que se
  *                usan corresponden al nibble bajo del puerto o 4 si es el
@@ -125,7 +128,7 @@ uint8_t printLCD(char *buf)
 void sendCommandLCD(uint8_t cmd)
 {
     // clear register select
-    clearPin(&enPinLCD);
+    clearPin(&rsPinLCD);
     
     // write
     writeByteLCD(cmd);
@@ -154,7 +157,7 @@ void sendDataLCD(uint8_t data)
 /**
  * Escribe un byte en el LCD.
  * @param b byte a escribir
- **/
+ */
 void writeByteLCD(uint8_t data)
 {
     // escribimos el nibble alto
@@ -168,7 +171,7 @@ void writeByteLCD(uint8_t data)
  * Escribe un nibble en el puerto del LCD. Usará el nibble bajo o alto de
  * acuerdo a cómo haya sido configurado.
  * @param nib se utilizan los 4 bits bajos del byte
- **/
+ */
 void writeNibbleLCD(uint8_t nib)
 {
     // set write mode
@@ -194,4 +197,21 @@ void writeNibbleLCD(uint8_t nib)
     
     // clear enable
     clearPin(&enPinLCD);
+}
+
+/**
+ * Limpia la pantalla del LCD.
+ */
+void clearLCD(void)
+{
+    sendCommandLCD(0x01);
+    delay_ms(20);
+}
+
+/**
+ * Posiciona el cursor del LCD en una fila y columna determinada.
+ */
+void gotoLCD(uint8_t fil, uint8_t col)
+{
+    
 }
