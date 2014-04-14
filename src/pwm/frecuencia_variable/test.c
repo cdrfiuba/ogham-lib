@@ -1,5 +1,4 @@
 /**
- * Ejemplo 5
  * Sintesis de onda con PWM permitiendo modificar la frecuencia con el pulsador.
  * Se puede medir la salida en el pin 17 (OC2) colocando un filtro pasabajos.
  **/

@@ -1,5 +1,4 @@
 /**
- * Ejemplo 4
  * Sintesis de onda con PWM.
  * En este ejemplo generamos una señal almacenada en una tabla previamente
  * generada. Se puede medir la salida en el pin 17 (OC2) colocando un filtro
