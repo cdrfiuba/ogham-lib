@@ -1,5 +1,4 @@
 /**
- * Ejemplo 3
  * Uso del PWM + pulsador
  * En este ejemplo empleamos el pulsador para aumentar el ancho de pulso.
  * Se puede medir la salida en el pin 17 (OC2) con un osciloscopio.
