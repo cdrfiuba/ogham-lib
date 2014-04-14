@@ -6,7 +6,11 @@ CC = avr-gcc
 CFLAGS ?=
 CFLAGS += -O2 -g -Wall
 CFLAGS += -fdata-sections -ffunction-sections 
-CFLAGS += -Wl,-gc-sections,-print-gc-sections
+ifeq ($(PRINTGCSECTIONS),1)
+  CFLAGS += -Wl,-gc-sections,-print-gc-sections
+else
+  CFLAGS += -Wl,-gc-sections
+endif
 SRC ?= $(shell ls *.c)
 SRC += $(shell ls $(OGHAMLIBPATH)/board/*.c)
 SRC += $(shell ls $(OGHAMLIBPATH)/lib/*.c)
