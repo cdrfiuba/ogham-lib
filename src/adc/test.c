@@ -1,5 +1,4 @@
 /**
- * Ejemplo 6
  * Prueba del ADC midiendo el LDR de la placa y mostrando el valor con los LEDs.
  **/
 
