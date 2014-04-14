@@ -3,5 +3,8 @@ TARGET = test
 #indicar la ubicacion del directorio principal de la bilbioteca
 OGHAMLIBPATH = ../
 
+# en el siguiente archivo hay que configurar el microcontrolador, y el reloj y la frecuencia de trabajo.
 include $(OGHAMLIBPATH)/board/config.mk
+
+# este archivo incluye todas las herramientas de avr para compilar el programa y cargarlo en el microcontrolador
 include $(OGHAMLIBPATH)/lib/setup.mk
