@@ -1,5 +1,5 @@
 # Micros soportados:
-# atmega8, atmega88, atmega88p, atmega168, atmega328
+# atmega8, atmega88, atmega88p, atmega168, atmega168p, atmega328, atmega328p
 MMCU ?= atmega88
 
 # Fuente del reloj:

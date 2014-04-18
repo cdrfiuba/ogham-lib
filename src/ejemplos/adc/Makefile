@@ -1,6 +1,6 @@
 TARGET = test
 
-OGHAMLIBPATH = ../
+OGHAMLIBPATH = ../../
 
 include $(OGHAMLIBPATH)/board/config.mk
 include $(OGHAMLIBPATH)/lib/setup.mk
