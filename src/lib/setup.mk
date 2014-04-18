@@ -1,12 +1,16 @@
 MMCU ?= atmega88
 CLOCK_SOURCE ?= clock_int
-F_CPU ?= 18432000UL
+F_CPU ?= 1000000UL
 
 CC = avr-gcc
 CFLAGS ?=
 CFLAGS += -O2 -g -Wall
 CFLAGS += -fdata-sections -ffunction-sections 
-CFLAGS += -Wl,-gc-sections,-print-gc-sections
+ifeq ($(PRINTGCSECTIONS),1)
+  CFLAGS += -Wl,-gc-sections,-print-gc-sections
+else
+  CFLAGS += -Wl,-gc-sections
+endif
 SRC ?= $(shell ls *.c)
 SRC += $(shell ls $(OGHAMLIBPATH)/board/*.c)
 SRC += $(shell ls $(OGHAMLIBPATH)/lib/*.c)
@@ -23,7 +27,7 @@ else ifeq ($(CLOCK_SOURCE), clock_int_8m)
 LFUSE = 0xe4
 else ifeq ($(CLOCK_SOURCE), clock_ext)
 HFUSE = 0xc9
-LFUSE = 0xef
+LFUSE = 0xff
 else
 $(error Fuente de reloj no válida.)
 endif
@@ -57,7 +61,19 @@ HFUSE = 0xdf
 ifeq ($(CLOCK_SOURCE), clock_int_1m)
 LFUSE = 0x62
 else ifeq ($(CLOCK_SOURCE), clock_int_8m)
-LFUSE = 0xd2
+LFUSE = 0xe2
+else ifeq ($(CLOCK_SOURCE), clock_ext)
+LFUSE = 0xf7
+else
+$(error Fuente de reloj no válida.)
+endif
+else ifeq ($(MMCU), atmega168p)
+TARGET_P = m168p
+HFUSE = 0xdf
+ifeq ($(CLOCK_SOURCE), clock_int_1m)
+LFUSE = 0x62
+else ifeq ($(CLOCK_SOURCE), clock_int_8m)
+LFUSE = 0xe2
 else ifeq ($(CLOCK_SOURCE), clock_ext)
 LFUSE = 0xf7
 else
@@ -65,11 +81,23 @@ $(error Fuente de reloj no válida.)
 endif
 else ifeq ($(MMCU), atmega328)
 TARGET_P = m328
-HFUSE = 0xf9
+HFUSE = 0xd9
 ifeq ($(CLOCK_SOURCE), clock_int_1m)
 LFUSE = 0x62
 else ifeq ($(CLOCK_SOURCE), clock_int_8m)
-LFUSE = 0xd2
+LFUSE = 0xe2
+else ifeq ($(CLOCK_SOURCE), clock_ext)
+LFUSE = 0xf7
+else
+$(error Fuente de reloj no válida.)
+endif
+else ifeq ($(MMCU), atmega328p)
+TARGET_P = m328p
+HFUSE = 0xd9
+ifeq ($(CLOCK_SOURCE), clock_int_1m)
+LFUSE = 0x62
+else ifeq ($(CLOCK_SOURCE), clock_int_8m)
+LFUSE = 0xe2
 else ifeq ($(CLOCK_SOURCE), clock_ext)
 LFUSE = 0xf7
 else

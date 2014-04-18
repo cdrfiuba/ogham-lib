@@ -15,8 +15,8 @@
  * Tener una copia de esto en cada módulo invocante permite que el compilador
  * optimice mejor.
  */
-static const IOPIN_t LED[] = {{&PORTC, &DDRC, &PINC, PIN3}, {&PORTC, &DDRC, &PINC, PIN2}, {&PORTD, &DDRD, &PIND, PIN7}, {&PORTD, &DDRD, &PIND, PIN4}};
-static const IOPIN_t BUTTON = {&PORTD, &DDRD, &PIND, PIN2};
+static const IOPIN_t LED[] = {definePin(C,3), definePin(C,2), definePin(D,7), definePin(D,4)};
+static const IOPIN_t BUTTON = definePin(D,2);
 
 // Funciones públicas
 void initBoard(void);
