@@ -14,9 +14,8 @@ static void (*isr_rx)(uint8_t data) = NULL;
 /**
  * Configura la UART.
  * @param baud Velocidad en bps
- * @param isr Puntero a la función de interrupción para la recepción.
  */
-void configUART(uint16_t baud, void (*isr)(uint8_t data))
+void configUart(uint16_t baud)
 {
     // Establecemos el prescaler para la velocidad deseada
     uint16_t UBRR = (F_CPU/16/baud) - 1;
@@ -29,19 +28,26 @@ void configUART(uint16_t baud, void (*isr)(uint8_t data))
     // RXint enable, RX enable, TX enable, UCSZ02=0 for 8 data bits (see UCSR0C:UCSZ01,UCSZ00)
     UCSR0B = 0b10011000;
     
-    isr_rx = isr;
-    
     sei();  // habilitar interrupciones globales
 }
 
-void setUARTRx
+/**
+ * Establece la función de interrupción para recepción.
+ * @param isr Puntero a la función que será llamada cuando se reciba un
+ *             dato en la UART. Debe admitir un parámetro de 8 bits que
+ *             es el dato recibido.
+ */
+void setUartRxIsr(void (*isr)(uint8_t data))
+{
+    isr_rx = isr;
+}
 
 /**
  * Transmite un byte por la UART.
  * @param data: valor de 8 bits a transmitir
- * @see configUART()
+ * @see configUart()
  */
-void uartTx(uint8_t data)
+void setUartTx(uint8_t data)
 {
     while (isBitClear(UCSR0A, 5));  // esperar hasta que se vacíe el buffer de tx
     
@@ -51,21 +57,21 @@ void uartTx(uint8_t data)
 /**
  * Retorna el último valor recibido en la UART.
  * @return Valor de 8 bits recibido.
- * @see configUART()
+ * @see configUart(), setUartRxIsr()
  */
-uint8_t getUARTData(void)
+uint8_t getUartData(void)
 {
     return UDR0;
 }
 
 /**
  * @internal
- * Interrupción de recepción de la UART
+ * Interrupción de recepción de la UART.
  */
 ISR(USART_RX_vect)
 {
     // el dato debe ser leído o la interrupción seguirá ocurriendo
-    uint8_t data = getUARTData();
+    uint8_t data = getUartData();
     
     // si el puntero es válido llamar al callback de usuario
     if (isr_rx != NULL) isr_rx(data);
