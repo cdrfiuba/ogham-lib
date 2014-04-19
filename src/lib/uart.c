@@ -15,7 +15,7 @@ static void (*isr_rx)(uint8_t data) = NULL;
  * Configura la UART.
  * @param baud Velocidad en bps
  */
-void configUart(uint16_t baud)
+void configUart(uint32_t baud)
 {
     // Establecemos el prescaler para la velocidad deseada
     uint16_t UBRR = (F_CPU/16/baud) - 1;
