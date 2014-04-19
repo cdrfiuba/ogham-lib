@@ -14,6 +14,7 @@
 #include "adc.h"
 #include "interrupt.h"
 #include "delay.h"
+#include "uart.h"
 
 
 #endif
