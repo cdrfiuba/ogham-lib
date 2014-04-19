@@ -4,7 +4,7 @@ F_CPU ?= 1000000UL
 
 CC = avr-gcc
 CFLAGS ?=
-CFLAGS += -O2 -g -Wall
+CFLAGS += -O2 -g
 CFLAGS += -fdata-sections -ffunction-sections 
 ifeq ($(PRINTGCSECTIONS),1)
   CFLAGS += -Wl,-gc-sections,-print-gc-sections
