@@ -131,7 +131,7 @@ program: hex
 program_dw: elf
 	avarice -w -j usb --erase --program --file $(TARGET).elf
 
-fuse:
+fuses:
 	avrdude -c usbtiny -p $(TARGET_P) -U lfuse:w:$(LFUSE):m -U hfuse:w:$(HFUSE):m
 
 clean:
