@@ -51,9 +51,8 @@ typedef struct
  * #include <pin.h>
  * IOPIN_t led1 = definePin(C, 3);
  * @endcode
- * @param
- *  a letra que identifica al puerto. Debe estar en mayúscula.
- *  b número que identifica el pin, de 0 a 7
+ * @param a letra que identifica al puerto. Debe estar en mayúscula.
+ * @param b número que identifica el pin, de 0 a 7
  **/
 #define definePin(a, b) {&PORT##a, &DDR##a, &PIN##a, b}
 
