@@ -17,16 +17,38 @@ static void (*isr_rx)(uint8_t data) = NULL;
  */
 void configUart(uint32_t baud)
 {
-    // Establecemos el prescaler para la velocidad deseada
-    uint16_t UBRR = (F_CPU/16/baud) - 1;
-    
-    UBRR0 = UBRR;
-    
-    // Mode: asynchronous, no parity, 1 stop bit, 8 data bits, ignore clock polarity
-    UCSR0C = 0b00000110;
-    
-    // RXint enable, RX enable, TX enable, UCSZ02=0 for 8 data bits (see UCSR0C:UCSZ01,UCSZ00)
-    UCSR0B = 0b10011000;
+    #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || defined (__AVR_ATmega88P__) || defined (__AVR_ATmega168__) || defined (__AVR_ATmega168P__) || defined (__AVR_ATmega328__) || defined (__AVR_ATmega328P__)
+
+      // Establecemos el prescaler para la velocidad deseada
+      uint16_t rate = (F_CPU/16/baud) - 1;
+      UBRR0 = rate;
+      
+      // Mode: asynchronous, no parity, 1 stop bit, 8 data bits, ignore clock polarity
+      UCSR0C = 0b00000110;
+      
+      // RXint enable, RX enable, TX enable, UCSZ02=0 for 8 data bits (see UCSR0C:UCSZ01,UCSZ00)
+      UCSR0B = 0b10011000;
+
+    #elif  defined (__AVR_ATmega8__)
+
+      // Establecemos el prescaler para la velocidad deseada
+      uint16_t rate = (F_CPU/16/baud) - 1;
+      uint8_t hr = highByte(rate);
+      uint8_t lr = lowByte(rate);
+      
+      // En Atmega8 asegurarse de que el bit superior es 0 para escribir en el registro UBRRH
+      clearBit(hr, 7);
+      UBRRH = hr;
+      UBRRL = lr;
+      
+      // Mode: asynchronous, no parity, 1 stop bit, 8 data bits, ignore clock polarity
+      // Note: bit 7 must be 1 when writing the UCSRC on the Atmega8
+      UCSRC = 0b10000110;
+      
+      // RXint enable, RX enable, TX enable, UCSZ02=0 for 8 data bits (see UCSR0C:UCSZ01,UCSZ00)
+      UCSRB = 0b10011000;
+
+    #endif
     
     sei();  // habilitar interrupciones globales
 }
@@ -49,9 +71,19 @@ void setUartRxIsr(void (*isr)(uint8_t data))
  */
 void setUartTx(uint8_t data)
 {
-    while (isBitClear(UCSR0A, 5));  // esperar hasta que se vacíe el buffer de tx
-    
-    UDR0 = data;
+    #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || defined (__AVR_ATmega88P__) || defined (__AVR_ATmega168__) || defined (__AVR_ATmega168P__) || defined (__AVR_ATmega328__) || defined (__AVR_ATmega328P__)
+
+      while (isBitClear(UCSR0A, 5));  // esperar hasta que se vacíe el buffer de tx
+      
+      UDR0 = data;
+
+    #elif  defined (__AVR_ATmega8__)
+
+      while (isBitClear(UCSRA, 5));  // esperar hasta que se vacíe el buffer de tx
+      
+      UDR = data;
+
+    #endif
 }
 
 /**
@@ -61,14 +93,30 @@ void setUartTx(uint8_t data)
  */
 uint8_t getUartData(void)
 {
-    return UDR0;
+    #if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || defined (__AVR_ATmega88P__) || defined (__AVR_ATmega168__) || defined (__AVR_ATmega168P__) || defined (__AVR_ATmega328__) || defined (__AVR_ATmega328P__)
+
+      return UDR0;
+
+    #elif  defined (__AVR_ATmega8__)
+    
+      return UDR;
+
+    #endif
 }
 
 /**
  * @internal
  * Interrupción de recepción de la UART.
  */
+#if defined (__AVR_ATmega88__) || defined (__AVR_ATmega88A__) || defined (__AVR_ATmega88P__) || defined (__AVR_ATmega168__) || defined (__AVR_ATmega168P__) || defined (__AVR_ATmega328__) || defined (__AVR_ATmega328P__)
+
 ISR(USART_RX_vect)
+
+#elif  defined (__AVR_ATmega8__)
+
+ISR(USART_RXC_vect)
+
+#endif
 {
     // el dato debe ser leído o la interrupción seguirá ocurriendo
     uint8_t data = getUartData();
