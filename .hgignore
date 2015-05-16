@@ -1,8 +1,10 @@
 # use glob syntax.
 syntax: glob
 
-# archivos generales
+# archivos comprimidos
 *.zip
+
+#archivos temporales
 *.swp
 *~
 
@@ -33,5 +35,6 @@ syntax: glob
 *.out
 
 # documentación generada por Doxygen
-src/board/doc
+src/doc/html/*
+src/doc/latex/*
 
