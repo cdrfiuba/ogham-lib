@@ -11,10 +11,13 @@ ifeq ($(PRINTGCSECTIONS),1)
 else
   CFLAGS += -Wl,-gc-sections
 endif
+
 SRC ?= $(shell ls *.c)
+SRC += $(shell ls *.cpp)
+
 SRC += $(shell ls $(OGHAMLIBPATH)/board/*.c)
 SRC += $(shell ls $(OGHAMLIBPATH)/lib/*.c)
-SRC += $(shell ls $(OGHAMLIBPATH)/mods/*.c)
+SRC += $(shell ls $(OGHAMLIBPATH)/mods/*.c)	
 INC ?= 
 INC += -I$(OGHAMLIBPATH)/
 

@@ -6,7 +6,7 @@
  **/
  
 #include <avr/io.h>
-#include "lib/utils.h"
+#include "lib/utils.hpp"
 
 
 // LEDs
@@ -15,7 +15,8 @@
  * Tener una copia de esto en cada módulo invocante permite que el compilador
  * optimice mejor.
  */
-
+extern "C"
+{
 static const IOPIN_t LED[] = {definePin(C,3), definePin(C,2), definePin(D,7), definePin(D,4)};
 static const IOPIN_t BUTTON = definePin(D,2);
 
@@ -25,5 +26,5 @@ void initLeds(void);
 void initButton(void (*isr)(void), uint8_t debounce);
 uint8_t readButton(void);
 void initADC(void);
-
+}
 #endif
