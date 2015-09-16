@@ -1,3 +1,0 @@
-
-doc:
-	doxygen doxygen.cfg
