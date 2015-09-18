@@ -8,6 +8,10 @@
 
 
 // Tipos
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
 typedef struct
 {
@@ -28,5 +32,8 @@ void startPWM2(void);
 void stopPWM2(void);
 void setPWM2(uint8_t x);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif

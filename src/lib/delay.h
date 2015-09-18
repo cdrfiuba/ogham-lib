@@ -8,8 +8,17 @@
 
 #include <util/delay_basic.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 static inline void delay_ms(uint16_t msec);
 static inline void delay_us(uint16_t usec);
+
+#ifdef __cplusplus
+}
+#endif
 
 /**
  * Produce un retardo durante una cantidad entera de milisegundos.

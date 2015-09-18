@@ -16,6 +16,11 @@
  * optimice mejor.
  */
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 static const IOPIN_t LED[] = {definePin(C,3), definePin(C,2), definePin(D,7), definePin(D,4)};
 static const IOPIN_t BUTTON = definePin(D,2);
 
@@ -25,5 +30,9 @@ void initLeds(void);
 void initButton(void (*isr)(void), uint8_t debounce);
 uint8_t readButton(void);
 void initADC(void);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

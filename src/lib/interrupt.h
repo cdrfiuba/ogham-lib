@@ -8,7 +8,15 @@
 
 
 // Interrupciones
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 void configExtInt(uint8_t num, uint8_t sense, void (*isr)(void));
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif

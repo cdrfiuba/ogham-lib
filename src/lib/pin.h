@@ -57,6 +57,11 @@ typedef struct
 #define definePin(a, b) {&PORT##a, &DDR##a, &PIN##a, b}
 
 // Funciones públicas
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 
 void configPin(const IOPIN_t *pin, uint8_t dir, uint8_t pullup);
 static inline void setPin(const IOPIN_t *pin);
@@ -67,6 +72,9 @@ static inline uint8_t readPin(const IOPIN_t *pin);
 static inline void configPinOut(const IOPIN_t *pin);
 static inline void configPinIn(const IOPIN_t *pin);
 
+#ifdef __cplusplus
+}
+#endif
 
 // Funciones públicas inline
 
@@ -136,5 +144,6 @@ void configPinIn(const IOPIN_t *pin)
 {
     configPin(pin, PIN_DIR_IN, PIN_NO_PULLUP);
 }
+
 
 #endif
