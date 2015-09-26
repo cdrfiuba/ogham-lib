@@ -4,8 +4,8 @@
  * Hacemos parpadear un led.
  **/
  
-#include "board/board.hpp"
-#include "lib/delay.hpp"
+#include "board/board.h"
+#include "lib/delay.h"
 
 class foo
 {

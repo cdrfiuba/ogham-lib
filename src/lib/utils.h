@@ -10,11 +10,11 @@
 #include <stddef.h>
 #include "bitmanip.h"
 #include "pin.h"
-#include "pwm.h"
-#include "adc.h"
+//#include "pwm.h"
+//#include "adc.h"
 #include "interrupt.h"
 #include "delay.h"
-#include "uart.h"
+//#include "uart.h"
 
 
 #endif

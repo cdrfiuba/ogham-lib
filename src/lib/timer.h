@@ -18,12 +18,19 @@ typedef struct
 Timer0_t Timer0;
 
 // Funciones públicas
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
 void configTimer0(uint8_t prescaler, void (*isr)(void));
 void startTimer0(void);
 void readTimer0(void);
 void stopTimer0(void);
 
+#ifdef __cplusplus
+}
+#endif
 
 /*
 
